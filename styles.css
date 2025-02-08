@@ -1,5 +1,5 @@
-/* Reset básico */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
 
 * {
     margin: 0;
@@ -8,9 +8,10 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    /* font-family: 'Inter', sans-serif; */
+    font-family: 'Red Hat Display';
     color: #333;
-    overflow: hidden;
+    overflow: scroll;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -34,9 +35,11 @@ body {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
@@ -61,6 +64,7 @@ body {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -129,6 +133,7 @@ h1 {
         opacity: 0;
         transform: translateX(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -153,15 +158,18 @@ h1 {
     height: 100px;
     margin-bottom: 20px;
     animation: float 3s ease-in-out infinite;
-    background: rgba(255, 255, 255, 0.8); /* Fundo para melhorar visibilidade */
-    border-radius: 50%; /* Efeito circular */
-    padding: 10px; /* Espaçamento interno */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 10px;
 }
 
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-10px);
     }
@@ -212,8 +220,79 @@ h1 {
     display: none;
 }
 
-/* Responsividade */
+/* Estilos do Modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #FAF8F6;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.close-btn:hover {
+    color: #6a11cb;
+}
+
+#alert-message {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 20px;
+}
+
 @media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .weather-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .weather-header p {
+        font-size: 1rem;
+    }
+
+    .weather-detail {
+        font-size: 1rem;
+    }
+
+    #city-input {
+        width: 60%;
+    }
+
+    .weather-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 375px) {
     h1 {
         font-size: 2rem;
     }

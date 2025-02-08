@@ -3,7 +3,6 @@ const apiKey = 'acd8f94e1d12e611d684ecc6e1859dc8';
 // Função para buscar dados da cidade
 async function fetchCity(cidade) {
     try {
-        console.log('✔ Sucess (1)');
 
         let chamada = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}`);
         let cityData = await chamada.json();
@@ -20,10 +19,10 @@ async function fetchCity(cidade) {
             icon: `https://openweathermap.org/img/wn/${cityData.weather[0].icon}@2x.png` // Ícone do clima
         };
 
-        console.log(cityDataList);
         return cityDataList;
     } catch (error) {
         console.log(`❎ Erro: ${error.stack}`);
+        return 404;
     }
 }
 
@@ -41,16 +40,24 @@ async function main(cidade) {
 
     let dataCity = await fetchCity(cidade);
 
-    if (dataCity) {
-        // Atualizando os elementos HTML com os dados da API
-        document.getElementById('city').textContent = `Cidade: ${dataCity.city}`;
-        document.getElementById('clouds').textContent = `Nuvens: ${dataCity.clouds}%`;
-        document.getElementById('current-temp').textContent = `${dataCity.currentTemperature}°C`;
-        document.getElementById('humidity').textContent = `${dataCity.humidity}%`;
-        document.getElementById('max-temp').textContent = `${dataCity.tempMax}°C`;
-        document.getElementById('min-temp').textContent = `${dataCity.tempMin}°C`;
-        document.getElementById('wind-speed').textContent = `${dataCity.windSpeed} km/h`;
-        document.getElementById('weather-icon').src = dataCity.icon;
+    if (dataCity == 404 || dataCity == '404') {
+        showAlertModal('Cidade não encontrada. Verifique o nome digitado.');
+        let city = document.getElementById('city-input');
+        city.value = '';
+
+    } else {
+        if (dataCity) {
+            console.log('Sucess!');
+            // Atualizando os elementos HTML com os dados da API
+            document.getElementById('city').textContent = `Cidade: ${dataCity.city}`;
+            document.getElementById('clouds').textContent = `Nuvens: ${dataCity.clouds}%`;
+            document.getElementById('current-temp').textContent = `${dataCity.currentTemperature}°C`;
+            document.getElementById('humidity').textContent = `${dataCity.humidity}%`;
+            document.getElementById('max-temp').textContent = `${dataCity.tempMax}°C`;
+            document.getElementById('min-temp').textContent = `${dataCity.tempMin}°C`;
+            document.getElementById('wind-speed').textContent = `${dataCity.windSpeed} km/h`;
+            document.getElementById('weather-icon').src = dataCity.icon;
+        }
     }
 
     document.getElementById('loading').style.display = 'none';
@@ -74,8 +81,30 @@ document.getElementById('city-input').addEventListener('keypress', (e) => {
     }
 });
 
+// Função para exibir o modal de alerta
+function showAlertModal(message) {
+    const modal = document.getElementById('alert-modal');
+    const alertMessage = document.getElementById('alert-message');
+    alertMessage.textContent = message;
+    modal.style.display = 'flex';
+}
+
+// Função para fechar o modal de alerta
+function closeAlertModal() {
+    const modal = document.getElementById('alert-modal');
+    modal.style.display = 'none';
+}
+
+// Evento de clique no botão de fechar do modal
+document.querySelector('.close-btn').addEventListener('click', closeAlertModal);
+
+// Evento de clique fora do modal para fechá-lo
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('alert-modal');
+    if (event.target === modal) {
+        closeAlertModal();
+    }
+});
+
 // Chama a função principal com uma cidade padrão
-main('São Paulo');
-
-console.log
-
+// main('Blumenau'); 
